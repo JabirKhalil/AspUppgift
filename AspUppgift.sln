@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspUppgift", "AspUppgift\AspUppgift.csproj", "{BBCD66FA-61A4-46B2-A526-1E2F48C5231E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BBCD66FA-61A4-46B2-A526-1E2F48C5231E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBCD66FA-61A4-46B2-A526-1E2F48C5231E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBCD66FA-61A4-46B2-A526-1E2F48C5231E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBCD66FA-61A4-46B2-A526-1E2F48C5231E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DF31AF2E-C39B-489E-A886-5EC481EB76CB}
+	EndGlobalSection
+EndGlobal
