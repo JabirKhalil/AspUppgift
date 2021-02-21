@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using AspUppgift.Data;
 using AspUppgift.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspUppgift.Controllers
 {
+    [Authorize]
     public class ClassesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -47,6 +49,7 @@ namespace AspUppgift.Controllers
         }
 
         // GET: Classes/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -81,14 +84,22 @@ namespace AspUppgift.Controllers
             {
                 return NotFound();
             }
+            var model = new List<AddTeacher>();
 
-            var viewModel = new EditClassesViewModel()
+            foreach (var user in _userManager.Users)
             {
-                CurrentClass = schoolClass,
-                Teachers = _userManager.Users,
-                Students = _userManager.Users
-            };
-            return View(viewModel);
+                var addTeacher = new AddTeacher
+                {
+                    UserId = user.Id,
+                    UserName = user.DisplayName
+                };
+
+                addTeacher.IsSelected = false;
+                model.Add(addTeacher);
+            }
+
+
+            return View(model);
         }
 
         // POST: Classes/Edit/5
@@ -96,31 +107,22 @@ namespace AspUppgift.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id")] SchoolClass schoolClass)
+        public async Task<IActionResult> Edit(string id, [Bind("Id")] SchoolClass schoolClass, List<AddTeacher> model)
         {
-            if (id != schoolClass.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                for (int i = 0; i < model.Count; i++)
                 {
-                    _context.Update(schoolClass);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SchoolClassExists(schoolClass.Id))
+                    var teacher = await _userManager.FindByIdAsync(model[i].UserId);
+
+                    if (model[i].IsSelected)
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        schoolClass.Teacher = teacher;
+                        _context.Classes.Update(schoolClass);
+                        _context.SaveChanges();
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(schoolClass);

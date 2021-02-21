@@ -8,12 +8,24 @@ using System.Threading.Tasks;
 namespace AspUppgift.Models
 {
     public class SchoolClass
-    {   [Required]
+    {
+        [Required]
         [Key]
         public string Id { get; set; }
 
-        public ApplicationUser Teacher { get; set; }
+#nullable enable
+        public ApplicationUser? Teacher { get; set; }
+        public virtual ICollection<ApplicationUser>? Students { get; set; }
+#nullable disable
 
-        public virtual ICollection<ApplicationUser> Students { get; set; }
+        public SchoolClass(string id)
+        {
+            Id = id;
+        }
+
+        public SchoolClass()
+        {
+
+        }
     }
 }

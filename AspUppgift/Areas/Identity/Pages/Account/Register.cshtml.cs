@@ -82,6 +82,10 @@ namespace AspUppgift.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
+        //public IActionResult OnGetAsync(string returnUrl = null)
+        //{
+        //    return LocalRedirect("/");
+        //}
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
