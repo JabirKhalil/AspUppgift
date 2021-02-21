@@ -103,8 +103,9 @@ namespace AspUppgift.Areas.Identity.Pages.Account
                 {
                     if (!_roleManager.Roles.Any())
                     {
-                       await  _roleManager.CreateAsync(new IdentityRole("Admin"));
+                       await _roleManager.CreateAsync(new IdentityRole("Admin"));
                        await _roleManager.CreateAsync(new IdentityRole("User"));
+                        await _roleManager.CreateAsync(new IdentityRole("Teacher"));
                     }
                     _roleName = "Admin";
                 }

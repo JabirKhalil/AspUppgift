@@ -9,12 +9,14 @@ namespace AspUppgift.Models
 {
     public class SchoolClass
     {
+       
         [Required]
         [Key]
+        
         public string Id { get; set; }
 
 #nullable enable
-        public ApplicationUser? Teacher { get; set; }
+        public virtual ApplicationUser? Teacher { get; set; }
         public virtual ICollection<ApplicationUser>? Students { get; set; }
 #nullable disable
 

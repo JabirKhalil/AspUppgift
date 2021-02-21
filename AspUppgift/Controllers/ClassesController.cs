@@ -1,14 +1,12 @@
-﻿using System;
+﻿using AspUppgift.Data;
+using AspUppgift.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AspUppgift.Data;
-using AspUppgift.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AspUppgift.Controllers
 {
@@ -30,6 +28,7 @@ namespace AspUppgift.Controllers
             return View(await _context.Classes.ToListAsync());
         }
 
+
         // GET: Classes/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -44,7 +43,22 @@ namespace AspUppgift.Controllers
             {
                 return NotFound();
             }
+            var model = new List<AddStudent>();
 
+            foreach (var user in _userManager.Users)
+            {
+                var addStudent = new AddStudent
+                {
+                    UserId = user.Id,
+                    UserName = user.DisplayName
+                };
+
+                addStudent.IsSelected = false;
+                model.Add(addStudent);
+            }
+
+
+            
             return View(schoolClass);
         }
 
@@ -119,11 +133,12 @@ namespace AspUppgift.Controllers
                     {
                         schoolClass.Teacher = teacher;
                         _context.Classes.Update(schoolClass);
+                        //_context.Users.Update();
                         _context.SaveChanges();
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Classes");
             }
             return View(schoolClass);
         }
